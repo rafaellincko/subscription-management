@@ -1,0 +1,7 @@
+com\streaming\paymentprocessor\infraestructure\kafka\JacksonConfig.class
+com\streaming\paymentprocessor\producer\PaymentResultPublisher.class
+com\streaming\paymentprocessor\consumer\PaymentRequestConsumer.class
+com\streaming\paymentprocessor\PaymentProcessorApplication.class
+com\streaming\paymentprocessor\event\SubscriptionPaymentRequestedEvent.class
+com\streaming\paymentprocessor\infraestructure\kafka\KafkaConfig.class
+com\streaming\paymentprocessor\event\SubscriptionPaymentResultEvent.class
