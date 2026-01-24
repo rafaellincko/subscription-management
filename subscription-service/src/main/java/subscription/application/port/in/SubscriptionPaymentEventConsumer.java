@@ -1,6 +1,8 @@
 package subscription.application.port.in;
 
+import subscription.application.event.SubscriptionPaymentResultEvent;
+
 public interface SubscriptionPaymentEventConsumer {
 
-    void consume(String payload) throws Exception;
+    void handle(SubscriptionPaymentResultEvent event) throws Exception;
 }

@@ -1,5 +1,6 @@
 package subscription.application.usecase;
 
+import subscription.application.exception.SubscriptionNotFoundException;
 import subscription.domain.model.Subscription;
 import subscription.domain.repository.SubscriptionRepository;
 
@@ -16,8 +17,7 @@ public class CancelSubscriptionUseCase {
     public Subscription execute(UUID userId) {
 
         Subscription subscription =  repository.findByUserId(userId)
-                .orElseThrow(()->
-                        new RuntimeException("Assinatura não encontrada"));
+                .orElseThrow(SubscriptionNotFoundException::new);
 
         subscription.cancel();
 

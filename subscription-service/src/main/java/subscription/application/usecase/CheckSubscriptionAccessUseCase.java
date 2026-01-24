@@ -1,5 +1,6 @@
 package subscription.application.usecase;
 
+import subscription.application.exception.SubscriptionNotFoundException;
 import subscription.domain.model.Subscription;
 import subscription.domain.repository.SubscriptionRepository;
 
@@ -17,8 +18,7 @@ public class CheckSubscriptionAccessUseCase {
     public boolean execute(UUID userId, LocalDate today) {
 
         Subscription subscription = repository.findByUserId(userId)
-                .orElseThrow(()->
-                        new RuntimeException("Assinatura não encontrada"));
+                .orElseThrow(SubscriptionNotFoundException::new);
 
         return subscription.isActiveForUse(today);
     }

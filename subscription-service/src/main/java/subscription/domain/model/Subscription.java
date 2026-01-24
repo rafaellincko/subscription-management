@@ -1,11 +1,14 @@
 package subscription.domain.model;
 
+import subscription.application.exception.ApplicationException;
 import subscription.domain.enums.Plan;
 import subscription.domain.enums.SubscriptionStatus;
 
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
+
+import static subscription.interfaceadapter.error.ErrorCode.SUBSCRIPTION_INVALID_STATE;
 
 public class Subscription {
 
@@ -66,7 +69,10 @@ public class Subscription {
 
     public void cancel(){
         if (this.status != SubscriptionStatus.ATIVA){
-            throw new IllegalStateException("Assinatura não pode ser cancelada");
+            //throw new IllegalStateException("Assinatura não pode ser cancelada");
+            throw new ApplicationException(SUBSCRIPTION_INVALID_STATE,"Assinatura não está ativa e não pode ser cancelada") {
+            };
+
         }
         this.status = SubscriptionStatus.CANCELADA;
     }

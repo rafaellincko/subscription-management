@@ -1,5 +1,6 @@
 package subscription.application.usecase;
 
+import subscription.application.exception.SubscriptionNotFoundException;
 import subscription.domain.enums.Plan;
 import subscription.domain.enums.SubscriptionStatus;
 import subscription.domain.model.Subscription;
@@ -20,8 +21,7 @@ public class AdminUpdateSubscriptionUseCase {
     public Subscription execute(UUID userId, Plan plan, LocalDate startDate, LocalDate expirationDate, SubscriptionStatus status, int failedRenewalAttempts) {
 
         Subscription subscription =  repository.findByUserId(userId)
-                .orElseThrow(()->
-                        new RuntimeException("Assinatura não encontrada"));
+                .orElseThrow(SubscriptionNotFoundException::new);
 
         return repository.save(new Subscription(
                 userId,

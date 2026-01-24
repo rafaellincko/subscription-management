@@ -11,25 +11,29 @@ import org.springframework.kafka.annotation.KafkaListener;
 
 
 @Component
-public class KafkaPaymentEventConsumer implements SubscriptionPaymentEventConsumer {
+public class KafkaPaymentEventConsumer {
 
     private final ObjectMapper objectMapper;
     private final ApplicationLogger logger;
-    private final HandlePaymentResultUseCase handlePaymentUseCase;
+    //private final HandlePaymentResultUseCase handlePaymentUseCase;
+    private final SubscriptionPaymentEventConsumer subscriptionPaymentEventConsumer;
 
-    public KafkaPaymentEventConsumer(ObjectMapper objectMapper, ApplicationLogger logger, HandlePaymentResultUseCase handlePaymentUseCase) {
+    public KafkaPaymentEventConsumer(ObjectMapper objectMapper, ApplicationLogger logger,
+                                     //HandlePaymentResultUseCase handlePaymentUseCase,
+                                     SubscriptionPaymentEventConsumer subscriptionPaymentEventConsumer) {
         this.objectMapper = objectMapper;
         this.logger = logger;
-        this.handlePaymentUseCase = handlePaymentUseCase;
+        //this.handlePaymentUseCase = handlePaymentUseCase;
+        this.subscriptionPaymentEventConsumer = subscriptionPaymentEventConsumer;
     }
 
-    @Override
+    //@Override
     @KafkaListener(
             topics = "subscription-payment-result",
             groupId = "subscription-service-group",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    public void consume(String payload) {
+    public void consume(String payload) throws Exception {
         SubscriptionPaymentResultEvent event =
                 objectMapper.readValue(payload, SubscriptionPaymentResultEvent.class);
 
@@ -37,7 +41,8 @@ public class KafkaPaymentEventConsumer implements SubscriptionPaymentEventConsum
                 + " | Success: " + event.success()
                 + " | Tentativa: " + event.attempt());
         try {
-            handlePaymentUseCase.handle(event);
+            //handlePaymentUseCase.handle(event);
+            subscriptionPaymentEventConsumer.handle(event);
         } catch (Exception e) {
             logger.error("Erro técnico, Kafka pode reprocessar", e);
             throw e;

@@ -1,10 +1,13 @@
 package subscription.application.usecase;
 
+import subscription.application.exception.ApplicationException;
 import subscription.domain.enums.Plan;
 import subscription.domain.model.Subscription;
 import subscription.domain.repository.SubscriptionRepository;
 
 import java.util.UUID;
+
+import static subscription.interfaceadapter.error.ErrorCode.SUBSCRIPTION_INVALID_STATE;
 
 public class CreateSubscriptionUseCase {
 
@@ -16,7 +19,8 @@ public class CreateSubscriptionUseCase {
 
     public Subscription execute(UUID userId, Plan plan) {
         if (repository.existsActiveByUserId(userId)) {
-            throw new IllegalStateException("Usuário já possui assinatura ativa");
+            throw new ApplicationException(SUBSCRIPTION_INVALID_STATE,"Usuário já possui assinatura ativa") {
+            };
         }
         return repository.save(new Subscription(userId, plan));
     }

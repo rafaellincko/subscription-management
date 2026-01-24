@@ -1,20 +1,22 @@
 package subscription.application.usecase;
 
 //import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import subscription.application.event.SubscriptionPaymentRequestEvent;
 import subscription.application.event.SubscriptionPaymentResultEvent;
+import subscription.application.exception.SubscriptionNotFoundException;
+import subscription.application.port.in.SubscriptionPaymentEventConsumer;
 import subscription.application.port.out.ApplicationLogger;
 import subscription.application.port.out.SubscriptionPaymentEventPublisher;
 import subscription.domain.enums.SubscriptionStatus;
 import subscription.domain.model.Subscription;
 import subscription.domain.repository.SubscriptionRepository;
 
-public class HandlePaymentResultUseCase  {
+public class HandlePaymentResultUseCase implements SubscriptionPaymentEventConsumer {
 
     private static final int MAX_ATTEMPTS = 3;
 
     private final SubscriptionRepository repository;
-    private final SubscriptionPaymentEventPublisher eventPublisher;
     private final ApplicationLogger logger;
 
     public HandlePaymentResultUseCase(
@@ -23,16 +25,15 @@ public class HandlePaymentResultUseCase  {
             ApplicationLogger logger
     ) {
         this.repository = repository;
-        this.eventPublisher = eventPublisher;
         this.logger = logger;
     }
 
-//    @Transactional
+    @Transactional
+    @Override
     public void handle(SubscriptionPaymentResultEvent event) {
 
         Subscription subscription = repository.findById(event.subscriptionId())
-                .orElseThrow(()->
-                        new RuntimeException("Assinatura não encontrada"));
+                .orElseThrow(SubscriptionNotFoundException::new);
 
         if (subscription.getStatus() != SubscriptionStatus.RENOVANDO){
             logger.warn("Evento ignorado. Status atual: " + subscription.getStatus());

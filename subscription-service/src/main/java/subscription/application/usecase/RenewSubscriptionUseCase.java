@@ -1,6 +1,7 @@
 package subscription.application.usecase;
 
 import org.springframework.transaction.annotation.Transactional;
+import subscription.application.exception.SubscriptionNotFoundException;
 import subscription.application.port.out.ApplicationLogger;
 import subscription.application.port.out.SubscriptionPaymentEventPublisher;
 import subscription.application.event.SubscriptionPaymentRequestEvent;
@@ -24,11 +25,9 @@ public class RenewSubscriptionUseCase {
     public void execute(Subscription subscription){
 
     subscription = repository.findByUserIdToRenew(subscription.getUserId())
-            .orElseThrow(()->new IllegalStateException("Subscription not found"));
+            .orElseThrow(SubscriptionNotFoundException::new);
 
-        logger.info(
-                "Publicando evento de renovação de assinatura " + subscription.getId()
-        );
+        logger.info("Publicando evento de renovação de assinatura " + subscription.getId());
 
         eventPublisher.publish(
                 new SubscriptionPaymentRequestEvent(
