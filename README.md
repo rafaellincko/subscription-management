@@ -178,4 +178,4 @@ O projeto conta com testes unitários para garantir o comportamento correto das 
 
 - Criar um classe de ErrorHandler para tratativa das falhas da operação
 - Ampliar a cobertura de testes
-
+- CRUD de usuário

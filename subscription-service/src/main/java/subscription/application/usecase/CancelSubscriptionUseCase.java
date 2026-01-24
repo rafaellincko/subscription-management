@@ -15,7 +15,7 @@ public class CancelSubscriptionUseCase {
 
     public Subscription execute(UUID userId) {
 
-        Subscription subscription =  repository.findActiveByUserId(userId)
+        Subscription subscription =  repository.findByUserId(userId)
                 .orElseThrow(()->
                         new RuntimeException("Assinatura não encontrada"));
 

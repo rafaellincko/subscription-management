@@ -21,6 +21,20 @@ public class UseCaseConfig {
     }
 
     @Bean
+    AdminCreateSubscriptionUseCase adminCreateSubscriptionUseCase(
+            SubscriptionRepository repository
+    ) {
+        return new AdminCreateSubscriptionUseCase(repository);
+    }
+
+    @Bean
+    AdminUpdateSubscriptionUseCase adminUpdateSubscriptionUseCase(
+            SubscriptionRepository repository
+    ) {
+        return new AdminUpdateSubscriptionUseCase(repository);
+    }
+
+    @Bean
     GetSubscriptionUseCase getSubscriptionUseCase(
             SubscriptionRepository repository
     ) {

@@ -4,6 +4,7 @@ import subscription.domain.enums.Plan;
 import subscription.domain.enums.SubscriptionStatus;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Subscription {
@@ -21,7 +22,7 @@ public class Subscription {
 
     private int failedRenewalAttempts;
 
-    private Subscription() {}
+    public Subscription(){}
 
     public Subscription(UUID userId, Plan plan) {
         this.userId = userId;
@@ -33,6 +34,15 @@ public class Subscription {
 
     public Subscription(long id, UUID userId, Plan plan, LocalDate startDate, LocalDate expirationDate, SubscriptionStatus status, int failedRenewalAttempts) {
         this.id = id;
+        this.userId = userId;
+        this.plan = plan;
+        this.startDate = startDate;
+        this.expirationDate = expirationDate;
+        this.status = status;
+        this.failedRenewalAttempts = failedRenewalAttempts;
+    }
+
+    public Subscription(UUID userId, Plan plan, LocalDate startDate, LocalDate expirationDate, SubscriptionStatus status, int failedRenewalAttempts) {
         this.userId = userId;
         this.plan = plan;
         this.startDate = startDate;
