@@ -62,35 +62,77 @@ docker compose up -d --build
 
 **Endpoints principais do Subscription Service**
 
-Criar assinatura
-```
-POST /subscriptions
-```
+- **Collections Postman:** Na raiz do repositório foram anexadas collections do postman para consumo dos endpoints.
 
-Exemplo JSON:
-```
-postman request POST 'http://localhost:8080/subscriptions' \
-  --header 'Content-Type: application/json' \
-  --body '{
-    "userId": "550e8400-e29b-41d4-a716-446655440009",
-    "plan": "PREMIUM"
-}'
-```
+**ADMIN:**
 
-Consultar assinatura por usuário
-```
-GET /subscriptions/{userId}
-```
 
-Verificar permissão de acesso de usuário (assinatura cancelada mas ainda dentro do período de uso)
-```
-GET /subscriptions/{userId}/access
-```
+1. Criar assinatura como Admin
+	```
+	POST /admin/subscriptions
+	```
 
-Cancelar assinatura
-```
-DELETE /subscriptions/{userId}
-```
+
+	Exemplo JSON:
+	```
+	{
+		"userId": "83e069bd-3cad-44ff-b0dc-ab8b20cf45a8",
+		"plan": "PREMIUM",
+		"startDate": "2026-01-24",
+		"expirationDate": "2026-01-23",
+		"status": "ATIVA",
+		"failedRenewalAttempts": 0
+	}
+	```
+	
+2. Atualizar assinatura como Admin
+
+	```
+	PUT /admin/subscriptions/{userId}
+	```
+
+	Exemplo JSON:
+
+	```
+	{
+		"plan": "PREMIUM",
+		"startDate": "2026-01-24",
+		"expirationDate": "2026-01-23",
+		"status": "ATIVA",
+		"failedRenewalAttempts": 3
+	}
+	```
+
+**PÚBLICAS:**
+
+
+1. Criar assinatura
+	```
+	POST /subscriptions
+	```
+
+	Exemplo JSON:
+	```
+	{
+		"userId": "83e069bd-3cad-44ff-b0dc-ab8b20cf45a8",
+		"plan": "PREMIUM"
+	}
+	```
+
+2. Consultar assinatura por usuário
+	```
+	GET /subscriptions/{userId}
+	```
+
+3. Verificar permissão de acesso de usuário (assinatura cancelada mas ainda dentro do período de uso)
+	```
+	GET /subscriptions/{userId}/access
+	```
+
+4. Cancelar assinatura
+	```
+	DELETE /subscriptions/{userId}
+	```
 
 ----------------------
 
@@ -176,6 +218,4 @@ O projeto conta com testes unitários para garantir o comportamento correto das 
 
 **Próximos passos**
 
-- Criar um classe de ErrorHandler para tratativa das falhas da operação
 - Ampliar a cobertura de testes
-- CRUD de usuário
