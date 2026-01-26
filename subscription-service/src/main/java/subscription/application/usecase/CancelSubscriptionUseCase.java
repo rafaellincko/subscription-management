@@ -16,7 +16,7 @@ public class CancelSubscriptionUseCase {
 
     public Subscription execute(UUID userId) {
 
-        Subscription subscription =  repository.findByUserId(userId)
+        Subscription subscription =  repository.findActiveByUserId(userId)
                 .orElseThrow(SubscriptionNotFoundException::new);
 
         subscription.cancel();

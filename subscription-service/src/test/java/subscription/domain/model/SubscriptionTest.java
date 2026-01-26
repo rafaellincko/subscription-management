@@ -1,6 +1,7 @@
 package subscription.domain.model;
 
 import org.junit.jupiter.api.Test;
+import subscription.application.exception.ApplicationException;
 import subscription.domain.enums.Plan;
 import subscription.domain.enums.SubscriptionStatus;
 import subscription.domain.model.Subscription;
@@ -26,7 +27,7 @@ class SubscriptionTest {
         Subscription sub = new Subscription(UUID.randomUUID(), Plan.BASICO);
         sub.cancel();
 
-        assertThrows(IllegalStateException.class, sub::cancel);
+        assertThrows(ApplicationException.class, sub::cancel);
     }
 
     @Test

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import subscription.infraestructure.messaging.kafka.KafkaPaymentEventPublisher;
 import tools.jackson.databind.ObjectMapper;
 
+
 @Configuration
 public class UseCaseConfig {
 
@@ -81,4 +82,5 @@ public class UseCaseConfig {
     ) {
         return new KafkaPaymentEventPublisher(kafkaTemplate, objectMapper);
     }
+
 }

@@ -35,7 +35,6 @@ public class AdminSubscriptionController {
                 )
         );
     }
-
     @PutMapping("/{userId}")
     public SubscriptionResponse update(@RequestBody AdminUpdateSubscriptionRequest request, @PathVariable UUID userId) {
         return SubscriptionResponse.from(

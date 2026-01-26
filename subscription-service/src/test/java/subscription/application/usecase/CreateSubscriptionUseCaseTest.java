@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import subscription.application.exception.ApplicationException;
 import subscription.domain.enums.Plan;
 import subscription.domain.enums.SubscriptionStatus;
 import subscription.domain.model.Subscription;
@@ -43,6 +44,6 @@ class CreateSubscriptionUseCaseTest {
         UUID userId = UUID.randomUUID();
         when(repository.existsActiveByUserId(userId)).thenReturn(true);
 
-        assertThrows(IllegalStateException.class, () -> useCase.execute(userId, Plan.BASICO));
+        assertThrows(ApplicationException.class, () -> useCase.execute(userId, Plan.BASICO));
     }
 }

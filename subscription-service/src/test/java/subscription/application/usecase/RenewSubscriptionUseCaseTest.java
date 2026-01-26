@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import subscription.application.exception.SubscriptionNotFoundException;
 import subscription.application.port.out.ApplicationLogger;
 import subscription.application.port.out.SubscriptionPaymentEventPublisher;
 import subscription.domain.enums.Plan;
@@ -51,6 +52,6 @@ class RenewSubscriptionUseCaseTest {
         Subscription sub = new Subscription(UUID.randomUUID(), Plan.BASICO);
         when(repository.findByUserIdToRenew(sub.getUserId())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalStateException.class, () -> useCase.execute(sub));
+        assertThrows(SubscriptionNotFoundException.class, () -> useCase.execute(sub));
     }
 }
